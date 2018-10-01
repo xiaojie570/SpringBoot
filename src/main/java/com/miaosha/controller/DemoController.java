@@ -11,6 +11,7 @@ import com.miaosha.redis.RedisService;
 import com.miaosha.redis.UserKey;
 import com.miaosha.result.CodeMsg;
 import com.miaosha.result.Result;
+import com.miaosha.service.UserService;
 
 @Controller
 @RequestMapping("/demo")
@@ -18,6 +19,9 @@ public class DemoController {
 	
 	@Autowired
 	RedisService redisService;
+	
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping("/hello")
 	@ResponseBody
@@ -36,6 +40,21 @@ public class DemoController {
 	public String thymeleaf(Model model) {
 		model.addAttribute("name","fj");
 		return "hello";
+	}
+	
+	@RequestMapping("/db/get")
+	@ResponseBody
+	public Result<User> dbGet() {
+		User user = userService.getById(1);
+		return Result.success(user);
+	}
+	
+	
+	@RequestMapping("/db/tx")
+	@ResponseBody
+	public Result<Boolean> dbTx() {
+		Boolean ret = userService.tx();
+		return Result.success(ret);
 	}
 	
 	@RequestMapping("/redis/get")
