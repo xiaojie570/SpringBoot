@@ -1,5 +1,7 @@
 package com.miaosha.controller;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class LoginController {
 	
 	@RequestMapping("/dologin")
 	@ResponseBody
-	public Result<Boolean> doLogin(LoginVo lv) {
+	public Result<Boolean> doLogin(@Valid LoginVo lv) {
 		log.info(lv.toString());
 		// 参数校验
 		String passInput = lv.getPassword();
