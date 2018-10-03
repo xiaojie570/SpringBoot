@@ -33,8 +33,7 @@ public class MiaoshaUserService {
 		String dbPass = user.getPassword();
 		String saltDB = user.getSalt();
 		String calcPass = MD5Util.formPassToDBPass(formPass, saltDB);
-		System.out.println(calcPass); 
-		System.out.println(dbPass);
+		
 		if(!calcPass.equals(dbPass))
 			return CodeMsg.PASSWORD_ERROR;
 		
