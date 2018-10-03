@@ -1,5 +1,6 @@
 package com.miaosha.controller;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,10 +31,10 @@ public class LoginController {
 	
 	@RequestMapping("/dologin")
 	@ResponseBody
-	public Result<Boolean> doLogin(@Valid LoginVo lv) {
+	public Result<Boolean> doLogin(HttpServletResponse response,@Valid LoginVo lv) {
 		log.info(lv.toString());
 		// 登录
-		miaoshauserService.login(lv);
+		miaoshauserService.login(response,lv);
 		return Result.success(true);
 	}
 }
