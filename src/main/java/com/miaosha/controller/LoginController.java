@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.miaosha.result.CodeMsg;
 import com.miaosha.result.Result;
 import com.miaosha.service.MiaoshaUserService;
 import com.miaosha.vo.LoginVo;
@@ -33,20 +32,8 @@ public class LoginController {
 	@ResponseBody
 	public Result<Boolean> doLogin(@Valid LoginVo lv) {
 		log.info(lv.toString());
-		// 参数校验
-		String passInput = lv.getPassword();
-		String mobile = lv.getMobile();
-		if(StringUtils.isEmpty(passInput))
-			return Result.error(CodeMsg.PASSWORD_EMPTY);
-		
-		if(StringUtils.isEmpty(mobile))
-			return Result.error(CodeMsg.MOBILE_EMPTY);
-		
 		// 登录
-		CodeMsg cm = miaoshauserService.login(lv);
-		if(cm.getCode() == 0)
-			return Result.success(true);
-		else 
-			return Result.error(cm);	
+		miaoshauserService.login(lv);
+		return Result.success(true);
 	}
 }

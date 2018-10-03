@@ -13,8 +13,9 @@ public class IsMobileValidator implements ConstraintValidator<IsMobile,String>{
 
 	private boolean required = false;
 	
-	// 初始化方法
+	// 初始化方法，拿到注解
 	public void initialize(IsMobile constraintAnnotation) {
+		
 		required = constraintAnnotation.required();
 	}
 
