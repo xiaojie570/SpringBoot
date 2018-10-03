@@ -6,4 +6,8 @@
 *.rar
 *.tar.gz
 *.class
-/.settings/
+
+.project
+.classpath
+.settings
+.metadata
