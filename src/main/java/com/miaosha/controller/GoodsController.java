@@ -1,5 +1,7 @@
 package com.miaosha.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.miaosha.domain.MiaoshaUser;
 import com.miaosha.redis.RedisService;
+import com.miaosha.service.GoodsService;
 import com.miaosha.service.MiaoshaUserService;
 import com.miaosha.service.UserService;
+import com.miaosha.vo.GoodsVo;
 
 @Controller
 @RequestMapping("/goods")
@@ -24,14 +28,16 @@ public class GoodsController {
 	@Autowired
 	MiaoshaUserService userService;
 	
+	@Autowired 
+	GoodsService goodsService;
+	
 	@RequestMapping("/tolist")
 	public String toList(HttpServletResponse response,Model model,MiaoshaUser user) {
-		if(user != null) {
-			model.addAttribute("user", user);
-			return "goods_list";
-		} else {
-			return "error";
-		}
+		List<GoodsVo> goodsList = goodsService.listGoodsVo();
+		model.addAttribute("goodsList", goodsList);
+		return "goods_list";
+			
+		
 		
 	}
 	
