@@ -26,8 +26,13 @@ public class GoodsController {
 	
 	@RequestMapping("/tolist")
 	public String toList(HttpServletResponse response,Model model,MiaoshaUser user) {
-		model.addAttribute("user", user);
-		return "goods_list";
+		if(user != null) {
+			model.addAttribute("user", user);
+			return "goods_list";
+		} else {
+			return "error";
+		}
+		
 	}
 	
 	@RequestMapping("/todetail")

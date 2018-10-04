@@ -32,6 +32,20 @@ public class MiaoshaUserService {
 		return miaoshaDao.getById(id);
 	}
 
+	
+	public MiaoshaUser getByToken(HttpServletResponse response,String token) {
+		if(StringUtils.isEmpty(token))
+			return null;
+		
+		// 延长有效期
+		// 重新将缓存中的值取出来，然后新生成一个cookie写出来就ok了
+		MiaoshaUser user = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
+		if(user != null) {
+			addCookie(response,token,user);
+		}
+		return user;
+	}
+	
 	public Boolean login(HttpServletResponse response, LoginVo lv) {
 		if(lv == null) {
 			throw new GlobalException(CodeMsg.SERVER_ERROR);
@@ -48,18 +62,18 @@ public class MiaoshaUserService {
 		String dbPass = user.getPassword();
 		String saltDB = user.getSalt();
 		String calcPass = MD5Util.formPassToDBPass(formPass, saltDB);
-		
 		if(!calcPass.equals(dbPass))
 			throw new GlobalException(CodeMsg.PASSWORD_ERROR);;
-		
-			addCookie(response,user);
+			
+		// 生成Cookie
+		String token = UUIDUtil.uuid();
+		addCookie(response, token, user);
 		return true;
 	}
 
-	private void addCookie(HttpServletResponse response, MiaoshaUser user) {
+	private void addCookie(HttpServletResponse response,String token, MiaoshaUser user) {
 		//生成Cookie
-		String token = UUIDUtil.uuid();
-				
+		
 		// 标志token是哪个用户的
 		redisService.set(MiaoshaUserKey.token, token, user);
 		Cookie cookie = new Cookie(COOK1_NAME_TOKEN,token);
@@ -69,16 +83,6 @@ public class MiaoshaUserService {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
-	public MiaoshaUser getByToken(HttpServletResponse response,String token) {
-		if(StringUtils.isEmpty(token))
-			return null;
-		
-		// 延长有效期
-		// 重新将缓存中的值取出来，然后新生成一个cookie写出来就ok了
-		MiaoshaUser user = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
-		if(user != null) {
-			addCookie(response,user);
-		}
-		return user;
-	}
+	
+
 }

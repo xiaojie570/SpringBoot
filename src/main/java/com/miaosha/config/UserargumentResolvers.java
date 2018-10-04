@@ -38,16 +38,16 @@ public class UserargumentResolvers implements HandlerMethodArgumentResolver{
 		
 		
 		String paramToken = request.getParameter(MiaoshaUserService.COOK1_NAME_TOKEN);
-		String cookieToken = getCookie(request,MiaoshaUserService.COOK1_NAME_TOKEN);
+		String cookieToken = getCookieValue(request,MiaoshaUserService.COOK1_NAME_TOKEN);
 		if(StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
 			return "login";
 		}
 		String token = StringUtils.isEmpty(paramToken) ?cookieToken:paramToken;
 		MiaoshaUser user = userService.getByToken(response,token);
-		return null;
+		return user;
 	}
 
-	private String getCookie(HttpServletRequest request, String cook1NameToken) {
+	private String getCookieValue(HttpServletRequest request, String cook1NameToken) {
 		Cookie[] cookies = request.getCookies();
 		for(Cookie cookie: cookies) {
 			if(cookie.getName().equals(cook1NameToken)) {
