@@ -85,6 +85,7 @@ function doLogin(){
 	    	console.log(data);
 	    	if(data.code == 0){
 	    		layer.msg("成功");
+	    		//alert("122121212121");
 	    		window.location.href="/goods/tolist";
 	    	}else{
 	    		layer.msg(data.msg);

@@ -23,8 +23,6 @@ public class MiaoshaService {
 		goodsService.reduceStock(goods);
 		
 		// 生成订单
-		
-		
 		return orderService.createOrder(user,goods);
 	}
 
