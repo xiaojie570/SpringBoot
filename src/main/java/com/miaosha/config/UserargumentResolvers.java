@@ -27,6 +27,7 @@ public class UserargumentResolvers implements HandlerMethodArgumentResolver{
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		Class<?> clazz = parameter.getParameterType();
+		
 		return clazz == MiaoshaUser.class;
 	}
 
@@ -49,6 +50,8 @@ public class UserargumentResolvers implements HandlerMethodArgumentResolver{
 
 	private String getCookieValue(HttpServletRequest request, String cook1NameToken) {
 		Cookie[] cookies = request.getCookies();
+		if(cookies == null || cookies.length <= 0)
+			return null;
 		for(Cookie cookie: cookies) {
 			if(cookie.getName().equals(cook1NameToken)) {
 				return cookie.getValue();

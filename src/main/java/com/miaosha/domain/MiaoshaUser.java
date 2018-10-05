@@ -12,9 +12,6 @@ public class MiaoshaUser {
 	private Date lastLoginDate;
 	private Integer loginCount;
 	
-	
-	
-	
 	public long getId() {
 		return id;
 	}

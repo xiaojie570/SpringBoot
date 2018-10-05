@@ -33,7 +33,8 @@ public class GoodsController {
 	GoodsService goodsService;
 	
 	@RequestMapping("/tolist")
-	public String toList(HttpServletResponse response,Model model,MiaoshaUser user) {
+	public String toList(Model model,MiaoshaUser user) {
+		model.addAttribute("user", user);
 		List<GoodsVo> goodsList = goodsService.listGoodsVo();
 		model.addAttribute("goodsList", goodsList);
 		return "goods_list";
