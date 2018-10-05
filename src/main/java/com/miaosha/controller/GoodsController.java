@@ -46,14 +46,16 @@ public class GoodsController {
 	@ResponseBody
 	public String toList(HttpServletRequest request,HttpServletResponse response,Model model,MiaoshaUser user) {
 		model.addAttribute("user", user);
-		List<GoodsVo> goodsList = goodsService.listGoodsVo();
-		model.addAttribute("goodsList", goodsList);
-		//return "goods_list";
 		
+		// 页面缓存时间比较短，缓存失效是自动失效的
 		// 取缓存
 		String html = redisService.get(GoodsKey.getGoodsList, "", String.class);
 		if(!StringUtils.isEmpty(html))
 			return html;
+		
+		List<GoodsVo> goodsList = goodsService.listGoodsVo();
+		model.addAttribute("goodsList", goodsList);
+		//return "goods_list";
 		
 		// 手动渲染
 		SpringWebContext ctx = new SpringWebContext(request, response, request.getServletContext(),request.getLocale(), model.asMap(),applicationContext);
